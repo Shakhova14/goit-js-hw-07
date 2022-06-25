@@ -5,26 +5,43 @@ console.log(galleryItems);
 const containerGalleryEl = document.querySelector(".gallery");
 
 
- galleryItems.map(el => {
-    containerGalleryEl.insertAdjacentHTML(
-      'afterbegin',
-      `<div class="gallery__item">
-      <a class="gallery__link" href="${el.original}">
-        <img
-          class="gallery__image"
-          src="${el.preview}"
-          data-source="${el.original}"
-          alt="${el.description}"
-        />
-      </a>
-    </div>`,
-    );
-  });
+//  galleryItems.map(el => {
+//     containerGalleryEl.insertAdjacentHTML(
+//       'afterbegin',
+//       `<div class="gallery__item">
+//       <a class="gallery__link" href="${el.original}">
+//         <img
+//           class="gallery__image"
+//           src="${el.preview}"
+//           data-source="${el.original}"
+//           alt="${el.description}"
+//         />
+//       </a>
+//     </div>`,
+//     );
+//   });
+
+  const markup = galleryItems
+  .map((el) => `<div class="gallery__item">
+  <a class="gallery__link" href="${el.original}">
+    <img
+      class="gallery__image"
+      src="${el.preview}"
+      data-source="${el.original}"
+      alt="${el.description}"
+    />
+  </a>
+</div>`)
+  .join("");
+
+
+  containerGalleryEl.insertAdjacentHTML("afterbegin", markup);
+
 
   containerGalleryEl.addEventListener("click", onImageClick);
 
   function onImageClick (event) {
-    event.preventDefault();
+    
 
     if (event.target.nodeName !== "IMG") {
       return;
@@ -35,13 +52,13 @@ const containerGalleryEl = document.querySelector(".gallery");
     )
     
     console.log(event.target.dataset.source);
-    instance.show(() => console.log('lightbox now visible'));
+    instance.show();
     containerGalleryEl.addEventListener("keydown", (event) => {
     if (event.code === "Escape") {
-      instance.close(() => console.log('lightbox not visible anymore'))
+      instance.close();
     }
   })
-
+event.preventDefault();
   };
 
  
